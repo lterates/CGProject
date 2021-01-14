@@ -67,7 +67,7 @@ window.onload = function init() {
 
 function createFloor() {
 
-    let grassGeometry = new THREE.BoxGeometry(70, 72, 1);
+    let grassGeometry = new THREE.BoxGeometry(80, 80, 2);
     let grassTex = new THREE.TextureLoader().load("./img/Leaves1.jpg")
     grassTex.wrapS = THREE.RepeatWrapping;
     grassTex.wrapT = THREE.RepeatWrapping;
@@ -160,7 +160,7 @@ function spawnArvores() {
     let copa3 = new THREE.Mesh(copaGeo, copaMaterial)
     copa3.position.y = 3
     tronco3.add(copa3)
-    arvore3.position.set(-14, 1, 15)
+    arvore3.position.set(-16, 1, 25)
     scene.add(arvore3)
 
     arvore4 = new THREE.Object3D()
@@ -172,7 +172,7 @@ function spawnArvores() {
     let copa4 = new THREE.Mesh(copaGeo, copaMaterial)
     copa4.position.y = 3
     tronco4.add(copa4)
-    arvore4.position.set(-9, 1, 0)
+    arvore4.position.set(-10, 1, 0)
     scene.add(arvore4)
 
     arvore5 = new THREE.Object3D()
@@ -184,7 +184,7 @@ function spawnArvores() {
     let copa5 = new THREE.Mesh(copaGeo, copaMaterial)
     copa5.position.y = 3
     tronco5.add(copa5)
-    arvore5.position.set(30, 1, -10)
+    arvore5.position.set(32, 1, -10)
     scene.add(arvore5)
 
     arvore6 = new THREE.Object3D()
@@ -196,7 +196,7 @@ function spawnArvores() {
     let copa6 = new THREE.Mesh(copaGeo, copaMaterial)
     copa6.position.y = 3
     tronco6.add(copa6)
-    arvore6.position.set(25, 1, 5)
+    arvore6.position.set(17, 1, 5)
     scene.add(arvore6)
 
     arvore7 = new THREE.Object3D()
@@ -208,7 +208,7 @@ function spawnArvores() {
     let copa7 = new THREE.Mesh(copaGeo, copaMaterial)
     copa7.position.y = 3
     tronco7.add(copa7)
-    arvore7.position.set(20, 1, 34)
+    arvore7.position.set(27, 1, 34)
     scene.add(arvore7)
 
     arvore8 = new THREE.Object3D()
@@ -220,7 +220,7 @@ function spawnArvores() {
     let copa8 = new THREE.Mesh(copaGeo, copaMaterial)
     copa8.position.y = 3
     tronco8.add(copa8)
-    arvore8.position.set(-30, 1, -20)
+    arvore8.position.set(-34, 1, -30)
     scene.add(arvore8)
 
     arvore9 = new THREE.Object3D()
@@ -232,7 +232,7 @@ function spawnArvores() {
     let copa9 = new THREE.Mesh(copaGeo, copaMaterial)
     copa9.position.y = 3
     tronco9.add(copa9)
-    arvore9.position.set(10, 1, -20)
+    arvore9.position.set(11, 1, -25)
     scene.add(arvore9)
 
     arvore10 = new THREE.Object3D()
@@ -244,7 +244,7 @@ function spawnArvores() {
     let copa10 = new THREE.Mesh(copaGeo, copaMaterial)
     copa10.position.y = 3
     tronco10.add(copa10)
-    arvore10.position.set(24, 1, -15)
+    arvore10.position.set(25, 1, -18)
     scene.add(arvore10)
 
     arvore11 = new THREE.Object3D()
@@ -256,7 +256,7 @@ function spawnArvores() {
     let copa11 = new THREE.Mesh(copaGeo, copaMaterial)
     copa11.position.y = 3
     tronco11.add(copa11)
-    arvore11.position.set(-15, 1, 30)
+    arvore11.position.set(-25, 1, 15)
     scene.add(arvore11)
 
 }
