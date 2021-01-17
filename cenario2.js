@@ -10,8 +10,9 @@ window.onload = function init() {
     scene = new THREE.Scene();
 
     //funcao q faz as arvores
-    //spawnArvores();
-    createFloor(); 
+    spawnArvores();
+    spawnCharacter();
+    createFloor();
 
     /*let axes = new THREE.AxesHelper(500);
     scene.add(axes)*/
@@ -45,7 +46,7 @@ window.onload = function init() {
     let controls = new THREE.OrbitControls(camera);
     controls.addEventListener('change', function () {
         renderer.render(scene, camera);
-    });  
+    });
 
     /*****************************
      * LIGHTS 
@@ -67,11 +68,13 @@ window.onload = function init() {
 
 function createFloor() {
 
-    let grassGeometry = new THREE.BoxGeometry(80, 80, 2);
-    let grassTex = new THREE.TextureLoader().load("./img/Leaves1.jpg")
+    //relva
+
+    let grassGeometry = new THREE.BoxGeometry(70, 72, 1);
+    let grassTex = new THREE.TextureLoader().load("./img/snowFloor.jpg")
     grassTex.wrapS = THREE.RepeatWrapping;
     grassTex.wrapT = THREE.RepeatWrapping;
-    grassTex.repeat.set(27, 27)
+    grassTex.repeat.set(5, 5)
 
     let grassMaterial = new THREE.MeshPhongMaterial({
         map: grassTex,
@@ -84,20 +87,96 @@ function createFloor() {
     grass.position.y = -0.9
     scene.add(grass)
 
+    //rio 1
+    let pathGeometry = new THREE.BoxGeometry(10, 20, 1.1)
+    let pathTex = new THREE.TextureLoader().load("./img/water.png")
+    //repetir a textura do path 
+    pathTex.wrapS = THREE.RepeatWrapping;
+    pathTex.wrapT = THREE.RepeatWrapping;
+    pathTex.repeat.set(7, 7)
+    let pathMaterial = new THREE.MeshPhongMaterial({
+        map: pathTex,
+        side: THREE.DoubleSide,
+    })
 
-    plane = new THREE.Mesh(new THREE.PlaneGeometry(72, 70), new THREE.MeshBasicMaterial({
-        color: 0x00ff00,
-        opacity: 0.15,
-        transparent: true,
-        visible: false,
-        side: THREE.DoubleSide
-    }));
-    plane.rotation.x = -Math.PI/2
+    let path = new THREE.Mesh(pathGeometry, pathMaterial)
+    path.rotation.x = Math.PI / 2
+    path.position.set(-10, -0.8, -26)
+    scene.add(path)
 
-    plane.position.z = 3;
-    scene.add(plane);
+
+    //rio 3
+    let path2Geometry = new THREE.BoxGeometry(10, 65, 1.1)
+    let path2Tex = new THREE.TextureLoader().load("./img/water.png")
+    //repetir a textura do path 
+    path2Tex.wrapS = THREE.RepeatWrapping;
+    path2Tex.wrapT = THREE.RepeatWrapping;
+    path2Tex.repeat.set(7, 7)
+    let path2Material = new THREE.MeshPhongMaterial({
+        map: path2Tex,
+        side: THREE.DoubleSide,
+    })
+
+    let path2 = new THREE.Mesh(path2Geometry, path2Material)
+    path2.rotation.x = Math.PI / 2
+    path2.rotation.z = 90
+    path2.position.set(0, -0.8, 8)
+    scene.add(path2)
+
+    //rio 2
+    let path1Geometry = new THREE.BoxGeometry(10, 81, 1.1)
+    let path1Tex = new THREE.TextureLoader().load("./img/water.png")
+    //repetir a textura do path 
+    path1Tex.wrapS = THREE.RepeatWrapping;
+    path1Tex.wrapT = THREE.RepeatWrapping;
+    path1Tex.repeat.set(7, 7)
+    let path1Material = new THREE.MeshPhongMaterial({
+        map: path1Tex,
+        side: THREE.DoubleSide,
+    })
+
+    let path1 = new THREE.Mesh(path1Geometry, path1Material)
+    path1.rotation.x = Math.PI / 2
+    path1.rotation.z = -90
+    path1.position.set(-1, -0.8, -20)
+    scene.add(path1)
+
+
+    //rio 4
+    let path3Geometry = new THREE.BoxGeometry(10, 20, 1.1)
+    let path3Tex = new THREE.TextureLoader().load("./img/water.png")
+    //repetir a textura do path 
+    path3Tex.wrapS = THREE.RepeatWrapping;
+    path3Tex.wrapT = THREE.RepeatWrapping;
+    path3Tex.repeat.set(7, 7)
+    let path3Material = new THREE.MeshPhongMaterial({
+        map: path3Tex,
+        side: THREE.DoubleSide,
+    })
+
+    let path3 = new THREE.Mesh(path3Geometry, path3Material)
+    path3.rotation.x = Math.PI / 2
+    path3.position.set(30, -0.8, 26)
+    scene.add(path3)
+
+    //rio 5
+    let path4Geometry = new THREE.BoxGeometry(10, 40, 1.1)
+    let path4Tex = new THREE.TextureLoader().load("./img/water.png")
+    //repetir a textura do path 
+    path4Tex.wrapS = THREE.RepeatWrapping;
+    path4Tex.wrapT = THREE.RepeatWrapping;
+    path4Tex.repeat.set(7, 7)
+    let path4Material = new THREE.MeshPhongMaterial({
+        map: path4Tex,
+        side: THREE.DoubleSide,
+    })
+
+    let path4 = new THREE.Mesh(path4Geometry, path4Material)
+    path4.rotation.x = Math.PI / 2
+    path4.position.set(10, -0.8, -8)
+    scene.add(path4)
+
 }
-
 
 // construtor das arvores
 function spawnArvores() {
@@ -109,10 +188,17 @@ function spawnArvores() {
     })
 
     // Folhas
-    let copaGeo = new THREE.SphereGeometry(4, 4, 20)
-    let copaTex = new THREE.TextureLoader().load("./img/leaves.jpg")
+    let copaGeo = new THREE.ConeGeometry(4, 8, 20)
+    let copaTex = new THREE.TextureLoader().load("./img/pine.jpg")
     let copaMaterial = new THREE.MeshPhongMaterial({
         map: copaTex
+    })
+
+    // Folhas 2
+    let copa2Geo = new THREE.ConeGeometry(3, 6, 20)
+    let copa2Tex = new THREE.TextureLoader().load("./img/pineSnow.jpg")
+    let copa2Material = new THREE.MeshPhongMaterial({
+        map: copa2Tex
     })
 
     arvore = new THREE.Object3D()
@@ -124,20 +210,12 @@ function spawnArvores() {
     let copa = new THREE.Mesh(copaGeo, copaMaterial)
     copa.position.y = 3
     tronco.add(copa)
-    arvore.position.set(9, 1, 15)
+    arvore.position.set(20, 0.1, 5)
+    let copa2 = new THREE.Mesh(copa2Geo, copa2Material)
+    copa2.position.y = 5
+    copa2.rotation.y = 5
+    tronco.add(copa2)
     scene.add(arvore)
-
-    arvore1 = new THREE.Object3D()
-    //Tronco
-    let tronco1 = new THREE.Mesh(troncoGeo, troncoMaterial)
-    tronco1.position.y = 3
-    arvore1.add(tronco1)
-    //Folhas
-    let copa1 = new THREE.Mesh(copaGeo, copaMaterial)
-    copa1.position.y = 3
-    tronco1.add(copa1)
-    arvore1.position.set(20, 1, 15)
-    scene.add(arvore1)
 
     arvore2 = new THREE.Object3D()
     //Tronco
@@ -145,10 +223,14 @@ function spawnArvores() {
     tronco2.position.y = 3
     arvore2.add(tronco2)
     //Folhas
-    let copa2 = new THREE.Mesh(copaGeo, copaMaterial)
-    copa2.position.y = 3
-    tronco2.add(copa2)
-    arvore2.position.set(-20, 1, -15)
+    let copa3 = new THREE.Mesh(copaGeo, copaMaterial)
+    copa3.position.y = 3
+    tronco2.add(copa3)
+    arvore2.position.set(25, 0.1, -7)
+    let copa4 = new THREE.Mesh(copa2Geo, copa2Material)
+    copa4.position.y = 5
+    copa4.rotation.y = 5
+    tronco2.add(copa4)
     scene.add(arvore2)
 
     arvore3 = new THREE.Object3D()
@@ -157,10 +239,14 @@ function spawnArvores() {
     tronco3.position.y = 3
     arvore3.add(tronco3)
     //Folhas
-    let copa3 = new THREE.Mesh(copaGeo, copaMaterial)
-    copa3.position.y = 3
-    tronco3.add(copa3)
-    arvore3.position.set(-16, 1, 25)
+    let copa5 = new THREE.Mesh(copaGeo, copaMaterial)
+    copa5.position.y = 3
+    tronco3.add(copa5)
+    arvore3.position.set(20, 0.1, -15)
+    let copa6 = new THREE.Mesh(copa2Geo, copa2Material)
+    copa6.position.y = 5
+    copa6.rotation.y = 5
+    tronco3.add(copa6)
     scene.add(arvore3)
 
     arvore4 = new THREE.Object3D()
@@ -169,10 +255,14 @@ function spawnArvores() {
     tronco4.position.y = 3
     arvore4.add(tronco4)
     //Folhas
-    let copa4 = new THREE.Mesh(copaGeo, copaMaterial)
-    copa4.position.y = 3
-    tronco4.add(copa4)
-    arvore4.position.set(-10, 1, 0)
+    let copa7 = new THREE.Mesh(copaGeo, copaMaterial)
+    copa7.position.y = 3
+    tronco4.add(copa7)
+    arvore4.position.set(-20, 0.1, -26)
+    let copa8 = new THREE.Mesh(copa2Geo, copa2Material)
+    copa8.position.y = 5
+    copa8.rotation.y = 5
+    tronco4.add(copa8)
     scene.add(arvore4)
 
     arvore5 = new THREE.Object3D()
@@ -181,10 +271,14 @@ function spawnArvores() {
     tronco5.position.y = 3
     arvore5.add(tronco5)
     //Folhas
-    let copa5 = new THREE.Mesh(copaGeo, copaMaterial)
-    copa5.position.y = 3
-    tronco5.add(copa5)
-    arvore5.position.set(32, 1, -10)
+    let copa9 = new THREE.Mesh(copaGeo, copaMaterial)
+    copa9.position.y = 3
+    tronco5.add(copa9)
+    arvore5.position.set(-30, 0.1, -15)
+    let copa10 = new THREE.Mesh(copa2Geo, copa2Material)
+    copa10.position.y = 5
+    copa10.rotation.y = 5
+    tronco5.add(copa10)
     scene.add(arvore5)
 
     arvore6 = new THREE.Object3D()
@@ -193,10 +287,14 @@ function spawnArvores() {
     tronco6.position.y = 3
     arvore6.add(tronco6)
     //Folhas
-    let copa6 = new THREE.Mesh(copaGeo, copaMaterial)
-    copa6.position.y = 3
-    tronco6.add(copa6)
-    arvore6.position.set(17, 1, 5)
+    let copa11 = new THREE.Mesh(copaGeo, copaMaterial)
+    copa11.position.y = 3
+    tronco6.add(copa11)
+    arvore6.position.set(-20, 0.1, 26)
+    let copa12 = new THREE.Mesh(copa2Geo, copa2Material)
+    copa12.position.y = 5
+    copa12.rotation.y = 5
+    tronco6.add(copa12)
     scene.add(arvore6)
 
     arvore7 = new THREE.Object3D()
@@ -205,10 +303,14 @@ function spawnArvores() {
     tronco7.position.y = 3
     arvore7.add(tronco7)
     //Folhas
-    let copa7 = new THREE.Mesh(copaGeo, copaMaterial)
-    copa7.position.y = 3
-    tronco7.add(copa7)
-    arvore7.position.set(27, 1, 34)
+    let copa13 = new THREE.Mesh(copaGeo, copaMaterial)
+    copa13.position.y = 3
+    tronco7.add(copa13)
+    arvore7.position.set(-30, 0.1, 15)
+    let copa14 = new THREE.Mesh(copa2Geo, copa2Material)
+    copa14.position.y = 5
+    copa14.rotation.y = 5
+    tronco7.add(copa14)
     scene.add(arvore7)
 
     arvore8 = new THREE.Object3D()
@@ -217,10 +319,14 @@ function spawnArvores() {
     tronco8.position.y = 3
     arvore8.add(tronco8)
     //Folhas
-    let copa8 = new THREE.Mesh(copaGeo, copaMaterial)
-    copa8.position.y = 3
-    tronco8.add(copa8)
-    arvore8.position.set(-34, 1, -30)
+    let copa15 = new THREE.Mesh(copaGeo, copaMaterial)
+    copa15.position.y = 3
+    tronco8.add(copa15)
+    arvore8.position.set(0, 0.1, 26)
+    let copa16 = new THREE.Mesh(copa2Geo, copa2Material)
+    copa16.position.y = 5
+    copa16.rotation.y = 5
+    tronco8.add(copa16)
     scene.add(arvore8)
 
     arvore9 = new THREE.Object3D()
@@ -229,10 +335,14 @@ function spawnArvores() {
     tronco9.position.y = 3
     arvore9.add(tronco9)
     //Folhas
-    let copa9 = new THREE.Mesh(copaGeo, copaMaterial)
-    copa9.position.y = 3
-    tronco9.add(copa9)
-    arvore9.position.set(11, 1, -25)
+    let copa17 = new THREE.Mesh(copaGeo, copaMaterial)
+    copa17.position.y = 3
+    tronco9.add(copa17)
+    arvore9.position.set(-10, 0.1, 15)
+    let copa18 = new THREE.Mesh(copa2Geo, copa2Material)
+    copa18.position.y = 5
+    copa18.rotation.y = 5
+    tronco9.add(copa18)
     scene.add(arvore9)
 
     arvore10 = new THREE.Object3D()
@@ -241,24 +351,43 @@ function spawnArvores() {
     tronco10.position.y = 3
     arvore10.add(tronco10)
     //Folhas
-    let copa10 = new THREE.Mesh(copaGeo, copaMaterial)
-    copa10.position.y = 3
-    tronco10.add(copa10)
-    arvore10.position.set(25, 1, -18)
+    let copa19 = new THREE.Mesh(copaGeo, copaMaterial)
+    copa19.position.y = 3
+    tronco10.add(copa19)
+    arvore10.position.set(20, 0.1, 30)
+    let copa20 = new THREE.Mesh(copa2Geo, copa2Material)
+    copa20.position.y = 5
+    copa20.rotation.y = 5
+    tronco10.add(copa20)
     scene.add(arvore10)
 
-    arvore11 = new THREE.Object3D()
-    //Tronco
-    let tronco11 = new THREE.Mesh(troncoGeo, troncoMaterial)
-    tronco11.position.y = 3
-    arvore11.add(tronco11)
-    //Folhas
-    let copa11 = new THREE.Mesh(copaGeo, copaMaterial)
-    copa11.position.y = 3
-    tronco11.add(copa11)
-    arvore11.position.set(-25, 1, 15)
-    scene.add(arvore11)
+}
 
+function spawnCharacter() {
+    let ball1Geo = new THREE.SphereGeometry(2, 32, 32);
+    let ball1Mat = new THREE.MeshBasicMaterial({
+        color: 0xF5F5F5
+    });
+    let ball1 = new THREE.Mesh(ball1Geo, ball1Mat);
+    ball1.position.set(-2, 1, -6)
+
+    let ball2Geo = new THREE.SphereGeometry(1.5, 32, 32);
+    let ball2Mat = new THREE.MeshBasicMaterial({
+        color: 0xF5F5F5
+    });
+    let ball2 = new THREE.Mesh(ball2Geo, ball2Mat);
+    ball2.position.set(-2, 3.5, -6)
+    
+    let hatGeo = new THREE.CylinderGeometry(.8, .8, 1, 32);
+    let hatMat = new THREE.MeshBasicMaterial({
+        color : 0x000000
+    })
+    let hat = new THREE.Mesh(hatGeo, hatMat);
+    hat.position.set(-2, 5, -6)
+    
+    snowmen = new THREE.Object3D();
+    snowmen.add(ball1,ball2,hat)
+    scene.add(snowmen)
 }
 
 function handleKeyDown(e) {

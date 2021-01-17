@@ -84,18 +84,6 @@ function createFloor() {
     grass.position.y = -0.9
     scene.add(grass)
 
-
-    plane = new THREE.Mesh(new THREE.PlaneGeometry(72, 70), new THREE.MeshBasicMaterial({
-        color: 0x00ff00,
-        opacity: 0.15,
-        transparent: true,
-        visible: false,
-        side: THREE.DoubleSide
-    }));
-    plane.rotation.x = -Math.PI/2
-
-    plane.position.z = 3;
-    scene.add(plane);
 }
 
 
