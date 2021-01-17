@@ -68,24 +68,24 @@ window.onload = function init() {
 
 function createFloor() {
 
-    //relva
+    //neve
 
-    let grassGeometry = new THREE.BoxGeometry(70, 72, 1);
-    let grassTex = new THREE.TextureLoader().load("./img/snowFloor.jpg")
-    grassTex.wrapS = THREE.RepeatWrapping;
-    grassTex.wrapT = THREE.RepeatWrapping;
-    grassTex.repeat.set(5, 5)
+    let snowGeometry = new THREE.BoxGeometry(70, 72, 1);
+    let snowTex = new THREE.TextureLoader().load("./img/snowFloor.jpg")
+    snowTex.wrapS = THREE.RepeatWrapping;
+    snowTex.wrapT = THREE.RepeatWrapping;
+    snowTex.repeat.set(5, 5)
 
-    let grassMaterial = new THREE.MeshPhongMaterial({
-        map: grassTex,
+    let snowMaterial = new THREE.MeshPhongMaterial({
+        map: snowTex,
         side: THREE.DoubleSide,
     })
 
-    let grass = new THREE.Mesh(grassGeometry, grassMaterial);
+    let snow = new THREE.Mesh(snowGeometry, snowMaterial);
 
-    grass.rotation.x = Math.PI / 2; //roda 90 graus em x
-    grass.position.y = -0.9
-    scene.add(grass)
+    snow.rotation.x = Math.PI / 2; //roda 90 graus em x
+    snow.position.y = -0.9
+    scene.add(snow)
 
     //rio 1
     let pathGeometry = new THREE.BoxGeometry(10, 20, 1.1)
@@ -384,7 +384,7 @@ function spawnCharacter() {
     })
     let hat = new THREE.Mesh(hatGeo, hatMat);
     hat.position.set(-2, 5, -6)
-    
+
     snowmen = new THREE.Object3D();
     snowmen.add(ball1,ball2,hat)
     scene.add(snowmen)
