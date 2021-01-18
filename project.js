@@ -35,6 +35,7 @@ window.onload = function init() {
     renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setClearColor(0x66ccff, 1.0);
+    renderer.shadowMap.enabled = true;
 
     // add the output of the renderer to an HTML element (this case, the body)
     document.body.appendChild(renderer.domElement);
@@ -51,9 +52,12 @@ window.onload = function init() {
      * LIGHTS 
      ****************************/
     //ambient light
-    ambientLight = new THREE.AmbientLight(0x404040, 2);
-    ambientLight.visible = true;
-    scene.add(ambientLight);
+    
+
+    let directionalLight = new THREE.DirectionalLight(new THREE.Color('hsl(30, 100%, 75%)'), 1.0);
+    directionalLight.position.set(-20, 15, -15)
+    directionalLight.castShadow = true;
+    scene.add(directionalLight)
 
 
     // Add key handling
@@ -113,6 +117,7 @@ function spawnArvores() {
     copa.position.y = 3
     tronco.add(copa)
     arvore.position.set(9, 1, 15)
+    arvore.castShadow = true;
     scene.add(arvore)
 
     arvore1 = new THREE.Object3D()
@@ -259,3 +264,10 @@ function handleKeyDown(e) {
      * ***************************/
     renderer.render(scene, camera);
 }
+
+
+let animate = function () {
+    requestAnimationFrame(animate);
+    controls.update();
+    renderer.render(scene, camera);
+};
