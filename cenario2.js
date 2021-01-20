@@ -1,8 +1,13 @@
 let renderer, scene, camera;
+let pathSpeed = 0
+let sphere;
 renderer = document.getElementById("canvas-container");
+let balls = [];
+let rain, rainGeometry, rainCount = 10000;
 
 // once everything is loaded, we run our Three.js stuff
 window.onload = function init() {
+
     /*********************
      * SCENE 
      * *******************/
@@ -13,7 +18,7 @@ window.onload = function init() {
     spawnArvores();
     spawnCharacter();
     createFloor();
-    balls();
+    ball();
 
     /*********************
      * CAMERA 
@@ -24,11 +29,11 @@ window.onload = function init() {
     camera.position.x = 0;
     camera.position.y = 20;
     camera.position.z = 45;
-    camera.lookAt(new THREE.Vector3(0, 0, 0));
+    
     scene.add(camera);
     scene.background = 0xFFFFFF;
     scene.fog = new THREE.Fog( 0xFFFFFF, 50, 100)
-
+    
     /*********************
      * RENDERER 
      * *******************/
@@ -54,12 +59,15 @@ window.onload = function init() {
      * LIGHTS 
      ****************************/
 
-    directionalLight = new THREE.DirectionalLight(0x404040, 3);
-    directionalLight.position.set(0, 2, 1)
+    directionalLight = new THREE.DirectionalLight(0x404040, 1);
+    directionalLight.position.set(4, 20, 15)
     scene.add(directionalLight)
     directionalLight.castShadow = true;
 
-    scene.add(new THREE.AxesHelper(50))
+    const light = new THREE.HemisphereLight( 0xffffff, 0x080820, 0.7);
+    scene.add( light );
+
+    //scene.add(new THREE.AxesHelper(50))
 
     // Add key handling
     document.onkeydown = handleKeyDown;
@@ -68,8 +76,12 @@ window.onload = function init() {
      * RENDER 
      * ***************************/
     renderer.render(scene, camera);
+    camera.lookAt(new THREE.Vector3(-2, 5, -6));
+    weather();
+    animate();
 }
 
+// CHÃO
 function createFloor() {
 
     //neve
@@ -103,7 +115,7 @@ function createFloor() {
     let path2 = new THREE.Mesh(path2Geometry, path2Material)
     path2.rotation.x = Math.PI / 2
     path2.rotation.z = 90
-    path2.position.set(0, -0.8, 8)
+    path2.position.set(-10, -0.8, 8)
     scene.add(path2)
 
     //rio 2
@@ -121,11 +133,11 @@ function createFloor() {
     let path1 = new THREE.Mesh(path1Geometry, path1Material)
     path1.rotation.x = Math.PI / 2
     path1.rotation.z = -90
-    path1.position.set(-1, -0.8, -20)
+    path1.position.set(-10, -0.8, -20)
     scene.add(path1)
 
     //rio 5
-    let path4Geometry = new THREE.BoxGeometry(10, 40, 1.001)
+    let path4Geometry = new THREE.BoxGeometry(10, 50, 1.001)
     let path4Tex = new THREE.TextureLoader().load("./img/water.png")
     //repetir a textura do path 
     path4Tex.wrapS = THREE.RepeatWrapping;
@@ -138,11 +150,11 @@ function createFloor() {
 
     let path4 = new THREE.Mesh(path4Geometry, path4Material)
     path4.rotation.x = Math.PI / 2
-    path4.position.set(10, -0.8, -8)
+    path4.position.set(12, -0.8, -8)
     scene.add(path4)
 }
 
-// construtor das arvores
+// ÁRVORES
 function spawnArvores() {
     // Tronco
     let troncoGeo = new THREE.CylinderGeometry(0.5, 0.5, 8)
@@ -328,42 +340,123 @@ function spawnArvores() {
 
 }
 
+// BONECO DE NEVE
 function spawnCharacter() {
     let ball1Geo = new THREE.SphereGeometry(2, 32, 32);
     let ball1Mat = new THREE.MeshPhongMaterial({
         color: 0xF5F5F5
     });
     let ball1 = new THREE.Mesh(ball1Geo, ball1Mat);
-    ball1.position.set(-2, 1, -6)
+    ball1.position.set(0, 1, 0)
+    ball1.castShadow = true;
 
     let ball2Geo = new THREE.SphereGeometry(1.5, 32, 32);
     let ball2Mat = new THREE.MeshPhongMaterial({
         color: 0xF5F5F5
     });
     let ball2 = new THREE.Mesh(ball2Geo, ball2Mat);
-    ball2.position.set(-2, 3.5, -6)
+    ball2.position.set(0, 3.5, 0)
+    ball2.castShadow = true;
     
     let hatGeo = new THREE.CylinderGeometry(.8, .8, 1, 32);
     let hatMat = new THREE.MeshPhongMaterial({
         color : 0x000000
     })
     let hat = new THREE.Mesh(hatGeo, hatMat);
-    hat.position.set(-2, 5, -6)
+    hat.position.set(0, 5, 0)
+    hat.castShadow = true
 
     snowmen = new THREE.Object3D();
     snowmen.add(ball1,ball2,hat)
+    snowmen.castShadow = true;
     scene.add(snowmen)
 }
 
-function balls() {
-    let geometry = new THREE.SphereGeometry(1,10,10)
+// BOLAS
+function ball() {
+    let geometry = new THREE.SphereGeometry(1,32,32)
     let material = new THREE.MeshPhongMaterial({color: 0xFF0000});
-    let sphere = new THREE.Mesh(geometry, material)
-    sphere.position.set(0,1,0)
+    let material2 = new THREE.MeshPhongMaterial({color: 0x00FF00});
+    let material3 = new THREE.MeshPhongMaterial({color: 0x0000FF});
+    sphere = new THREE.Mesh(geometry, material)
+    sphere.position.set(-2,2,-5)
     scene.add(sphere)
+    sphere.castShadow = true;
+
+    sphere2 = new THREE.Mesh(geometry, material)
+    sphere2.position.set(-2,2,-5)
+    scene.add(sphere2)
+
+    sphere3 = new THREE.Mesh(geometry, material2)
+    sphere3.position.set(-2,2,-5)
+    scene.add(sphere3)
+
+    sphere4 = new THREE.Mesh(geometry, material3)
+    sphere4.position.set(-2,2,-5)
+    scene.add(sphere4)
+
+    sphere5 = new THREE.Mesh(geometry, material2)
+    sphere5.position.set(-2,2,-5)
+    scene.add(sphere5)
+
+    sphere6 = new THREE.Mesh(geometry, material3)
+    sphere6.position.set(-2,2,-5)
+    scene.add(sphere6)
 }
 
+function updateBalls() {
+    pathSpeed += 0.004
+    sphere.position.x = 30*Math.cos(pathSpeed-0.1);
+    sphere.position.z = 30*Math.sin(pathSpeed-0.1);
 
+    sphere2.position.x = 30*Math.cos(pathSpeed);
+    sphere2.position.z = 30*Math.sin(pathSpeed);
+
+    sphere3.position.x = 30*Math.cos(pathSpeed-0.2);
+    sphere3.position.z = 30*Math.sin(pathSpeed-0.2);
+
+    sphere4.position.x = 30*Math.cos(pathSpeed-0.3);
+    sphere4.position.z = 30*Math.sin(pathSpeed-0.3);
+
+    sphere5.position.x = 30*Math.cos(pathSpeed-0.4);
+    sphere5.position.z = 30*Math.sin(pathSpeed-0.4);
+
+    sphere6.position.x = 30*Math.cos(pathSpeed-0.5);
+    sphere6.position.z = 30*Math.sin(pathSpeed-0.5);
+}
+
+function weather() {
+    rainGeometry = new THREE.Geometry();
+    for (let l = 0; l < rainCount; l++) {
+        rainDrop = new THREE.Vector3(
+            Math.random() * 100 -50,
+            Math.random() * 50 -25,
+            Math.random() * 100 -50,
+        );
+        rainDrop.velocity = {};
+        rainDrop.velocity = 0;
+        rainGeometry.vertices.push(rainDrop);
+    }
+    rainMaterial = new THREE.PointsMaterial({
+        color: 0xffffff, size: 0.1, transparent: true
+    });
+    rain = new THREE.Points(rainGeometry, rainMaterial)
+    scene.add(rain);
+}
+
+function snowFall() {
+    rainGeometry.vertices.forEach(p => {
+        p.velocity -= 0.00001;
+        p.y += p.velocity;
+        if(p.y < 0) {
+            p.y = 40;
+            p.velocity = 0;
+        }
+    });
+    rainGeometry.verticesNeedUpdate = true;
+}
+
+// KEY HANDLERS
 function handleKeyDown(e) {
     let char = e.key;
 
@@ -375,7 +468,10 @@ function handleKeyDown(e) {
     renderer.render(scene, camera);
 }
 
+// ANIMATE
 const animate = () => {
+    updateBalls();
+    snowFall();
     requestAnimationFrame(animate)
     renderer.render(scene, camera)
 }
