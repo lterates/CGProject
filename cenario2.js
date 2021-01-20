@@ -51,11 +51,10 @@ window.onload = function init() {
     /*****************************
      * LIGHTS 
      ****************************/
-    //ambient light
-    ambientLight = new THREE.AmbientLight(0x404040, 2);
-    ambientLight.visible = true;
-    scene.add(ambientLight);
 
+    directionalLight = new THREE.DirectionalLight(0x404040, 3);
+    directionalLight.position.set(4, 15, 4)
+    scene.add(directionalLight)
 
     // Add key handling
     document.onkeydown = handleKeyDown;
