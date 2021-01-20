@@ -33,7 +33,7 @@ window.onload = function init() {
      * RENDERER 
      * *******************/
     // create a render and set the size
-    renderer = new THREE.WebGLRenderer();
+    renderer = new THREE.WebGLRenderer({antialias: true});
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setClearColor(0x66ccff, 1.0);
 
@@ -53,7 +53,7 @@ window.onload = function init() {
      ****************************/
 
     directionalLight = new THREE.DirectionalLight(0x404040, 3);
-    directionalLight.position.set(4, 15, 4)
+    directionalLight.position.set(0, 2, 1)
     scene.add(directionalLight)
 
     // Add key handling
