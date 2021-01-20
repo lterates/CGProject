@@ -3,7 +3,7 @@ let pathSpeed = 0
 let sphere;
 renderer = document.getElementById("canvas-container");
 let balls = [];
-let rain, rainGeometry, rainCount = 10000;
+//let rain, rainGeometry, rainCount = 10000;
 
 // once everything is loaded, we run our Three.js stuff
 window.onload = function init() {
