@@ -13,21 +13,21 @@ window.onload = function init() {
     spawnArvores();
     spawnCharacter();
     createFloor();
-
-    /*let axes = new THREE.AxesHelper(500);
-    scene.add(axes)*/
+    balls();
 
     /*********************
      * CAMERA 
      * *******************/
     ///camera position
     // Add  a camera so we can view the scene
-    camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.5, 500);
     camera.position.x = 0;
-    camera.position.y = 4;
+    camera.position.y = 20;
     camera.position.z = 45;
     camera.lookAt(new THREE.Vector3(0, 0, 0));
     scene.add(camera);
+    scene.background = 0xFFFFFF;
+    scene.fog = new THREE.Fog( 0xFFFFFF, 50, 100)
 
     /*********************
      * RENDERER 
@@ -36,6 +36,8 @@ window.onload = function init() {
     renderer = new THREE.WebGLRenderer({antialias: true});
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setClearColor(0x66ccff, 1.0);
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
     // add the output of the renderer to an HTML element (this case, the body)
     document.body.appendChild(renderer.domElement);
@@ -55,6 +57,9 @@ window.onload = function init() {
     directionalLight = new THREE.DirectionalLight(0x404040, 3);
     directionalLight.position.set(0, 2, 1)
     scene.add(directionalLight)
+    directionalLight.castShadow = true;
+
+    scene.add(new THREE.AxesHelper(50))
 
     // Add key handling
     document.onkeydown = handleKeyDown;
@@ -68,44 +73,23 @@ window.onload = function init() {
 function createFloor() {
 
     //neve
-
-    let snowGeometry = new THREE.BoxGeometry(70, 72, 1);
+    let snowGeometry = new THREE.BoxGeometry(300, 300, 1.2);
     let snowTex = new THREE.TextureLoader().load("./img/snowFloor.jpg")
     snowTex.wrapS = THREE.RepeatWrapping;
     snowTex.wrapT = THREE.RepeatWrapping;
     snowTex.repeat.set(5, 5)
-
     let snowMaterial = new THREE.MeshPhongMaterial({
         map: snowTex,
         side: THREE.DoubleSide,
     })
-
-    let snow = new THREE.Mesh(snowGeometry, snowMaterial);
-
+    let snow = new THREE.Mesh(snowGeometry, snowMaterial)
     snow.rotation.x = Math.PI / 2; //roda 90 graus em x
     snow.position.y = -0.9
     scene.add(snow)
+    snow.receiveShadow = true;
 
     //rio 1
-    let pathGeometry = new THREE.BoxGeometry(10, 20, 1.1)
-    let pathTex = new THREE.TextureLoader().load("./img/water.png")
-    //repetir a textura do path 
-    pathTex.wrapS = THREE.RepeatWrapping;
-    pathTex.wrapT = THREE.RepeatWrapping;
-    pathTex.repeat.set(7, 7)
-    let pathMaterial = new THREE.MeshPhongMaterial({
-        map: pathTex,
-        side: THREE.DoubleSide,
-    })
-
-    let path = new THREE.Mesh(pathGeometry, pathMaterial)
-    path.rotation.x = Math.PI / 2
-    path.position.set(-10, -0.8, -26)
-    scene.add(path)
-
-
-    //rio 3
-    let path2Geometry = new THREE.BoxGeometry(10, 65, 1.1)
+    let path2Geometry = new THREE.BoxGeometry(10, 200, 1.01)
     let path2Tex = new THREE.TextureLoader().load("./img/water.png")
     //repetir a textura do path 
     path2Tex.wrapS = THREE.RepeatWrapping;
@@ -123,7 +107,7 @@ function createFloor() {
     scene.add(path2)
 
     //rio 2
-    let path1Geometry = new THREE.BoxGeometry(10, 81, 1.1)
+    let path1Geometry = new THREE.BoxGeometry(10, 200, 1.01)
     let path1Tex = new THREE.TextureLoader().load("./img/water.png")
     //repetir a textura do path 
     path1Tex.wrapS = THREE.RepeatWrapping;
@@ -140,26 +124,8 @@ function createFloor() {
     path1.position.set(-1, -0.8, -20)
     scene.add(path1)
 
-
-    //rio 4
-    let path3Geometry = new THREE.BoxGeometry(10, 20, 1.1)
-    let path3Tex = new THREE.TextureLoader().load("./img/water.png")
-    //repetir a textura do path 
-    path3Tex.wrapS = THREE.RepeatWrapping;
-    path3Tex.wrapT = THREE.RepeatWrapping;
-    path3Tex.repeat.set(7, 7)
-    let path3Material = new THREE.MeshPhongMaterial({
-        map: path3Tex,
-        side: THREE.DoubleSide,
-    })
-
-    let path3 = new THREE.Mesh(path3Geometry, path3Material)
-    path3.rotation.x = Math.PI / 2
-    path3.position.set(30, -0.8, 26)
-    scene.add(path3)
-
     //rio 5
-    let path4Geometry = new THREE.BoxGeometry(10, 40, 1.1)
+    let path4Geometry = new THREE.BoxGeometry(10, 40, 1.001)
     let path4Tex = new THREE.TextureLoader().load("./img/water.png")
     //repetir a textura do path 
     path4Tex.wrapS = THREE.RepeatWrapping;
@@ -174,7 +140,6 @@ function createFloor() {
     path4.rotation.x = Math.PI / 2
     path4.position.set(10, -0.8, -8)
     scene.add(path4)
-
 }
 
 // construtor das arvores
@@ -188,6 +153,7 @@ function spawnArvores() {
 
     // Folhas
     let copaGeo = new THREE.ConeGeometry(4, 8, 20)
+    copaGeo.castShadow = true;
     let copaTex = new THREE.TextureLoader().load("./img/pine.jpg")
     let copaMaterial = new THREE.MeshPhongMaterial({
         map: copaTex
@@ -364,21 +330,21 @@ function spawnArvores() {
 
 function spawnCharacter() {
     let ball1Geo = new THREE.SphereGeometry(2, 32, 32);
-    let ball1Mat = new THREE.MeshBasicMaterial({
+    let ball1Mat = new THREE.MeshPhongMaterial({
         color: 0xF5F5F5
     });
     let ball1 = new THREE.Mesh(ball1Geo, ball1Mat);
     ball1.position.set(-2, 1, -6)
 
     let ball2Geo = new THREE.SphereGeometry(1.5, 32, 32);
-    let ball2Mat = new THREE.MeshBasicMaterial({
+    let ball2Mat = new THREE.MeshPhongMaterial({
         color: 0xF5F5F5
     });
     let ball2 = new THREE.Mesh(ball2Geo, ball2Mat);
     ball2.position.set(-2, 3.5, -6)
     
     let hatGeo = new THREE.CylinderGeometry(.8, .8, 1, 32);
-    let hatMat = new THREE.MeshBasicMaterial({
+    let hatMat = new THREE.MeshPhongMaterial({
         color : 0x000000
     })
     let hat = new THREE.Mesh(hatGeo, hatMat);
@@ -389,6 +355,15 @@ function spawnCharacter() {
     scene.add(snowmen)
 }
 
+function balls() {
+    let geometry = new THREE.SphereGeometry(1,10,10)
+    let material = new THREE.MeshPhongMaterial({color: 0xFF0000});
+    let sphere = new THREE.Mesh(geometry, material)
+    sphere.position.set(0,1,0)
+    scene.add(sphere)
+}
+
+
 function handleKeyDown(e) {
     let char = e.key;
 
@@ -398,4 +373,9 @@ function handleKeyDown(e) {
      * RENDER 
      * ***************************/
     renderer.render(scene, camera);
+}
+
+const animate = () => {
+    requestAnimationFrame(animate)
+    renderer.render(scene, camera)
 }
