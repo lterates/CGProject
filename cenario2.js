@@ -77,7 +77,7 @@ window.onload = function init() {
      * ***************************/
     renderer.render(scene, camera);
     camera.lookAt(new THREE.Vector3(-2, 5, -6));
-    weather();
+    //weather();
     animate();
 }
 
@@ -402,6 +402,13 @@ function ball() {
     sphere6 = new THREE.Mesh(geometry, material3)
     sphere6.position.set(-2,2,-5)
     scene.add(sphere6)
+
+    sphere.visible = false;
+    sphere2.visible = false;
+    sphere3.visible = false;
+    sphere4.visible = false;
+    sphere5.visible = false;
+    sphere6.visible = false;
 }
 
 function updateBalls() {
@@ -425,7 +432,7 @@ function updateBalls() {
     sphere6.position.z = 30*Math.sin(pathSpeed-0.5);
 }
 
-function weather() {
+/*function weather() {
     rainGeometry = new THREE.Geometry();
     for (let l = 0; l < rainCount; l++) {
         rainDrop = new THREE.Vector3(
@@ -454,13 +461,22 @@ function snowFall() {
         }
     });
     rainGeometry.verticesNeedUpdate = true;
-}
+}*/
 
 // KEY HANDLERS
 function handleKeyDown(e) {
     let char = e.key;
-
     console.log(char)
+    if(e.keyCode === 32) {
+        sphere.visible = true;
+        sphere2.visible = true;
+        sphere3.visible = true;
+        sphere4.visible = true;
+        sphere5.visible = true;
+        sphere6.visible = true;
+        console.log("active")
+    }
+
 
     /*****************************
      * RENDER 
@@ -471,7 +487,7 @@ function handleKeyDown(e) {
 // ANIMATE
 const animate = () => {
     updateBalls();
-    snowFall();
+    //snowFall();
     requestAnimationFrame(animate)
     renderer.render(scene, camera)
 }
